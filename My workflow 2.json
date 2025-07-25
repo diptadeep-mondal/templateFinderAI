@@ -1,0 +1,320 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "template-search",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "30de5299-449d-4364-a08c-4919d20a3c25",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        32
+      ],
+      "webhookId": "92bb6385-a003-494d-8c2d-58c738d5240d"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "sheetId": "1v8aRvHQBwglhdWrpoCNE9fzptiCc23UxQvuhgr2RlIM",
+        "range": "Templates!A1:I",
+        "options": {}
+      },
+      "id": "044564c2-d96f-48a3-b156-7b7a6cb0de7c",
+      "name": "Get Templates",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        272
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "5nVgKB2JxJEANWiJ",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "f935c095-caac-427c-954d-4ce8904f3ed3",
+      "name": "Set Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        736,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "responseKey": "data"
+        }
+      },
+      "id": "7b8d6e87-9b80-4655-a043-3cc925d9a232",
+      "name": "Send Back Results",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        928,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0751111-512a-486b-bda5-ad5ea0adc146",
+              "name": "title",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "b16850c9-103b-4d17-afaa-ce17b6c4195a",
+              "name": "description",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "724c7fe8-6bc9-4f0e-b8d6-6a405acd8811",
+              "name": "creator",
+              "value": "={{ $json.creator }}",
+              "type": "string"
+            },
+            {
+              "id": "1fcef5aa-b3e6-4a13-a29a-f5736691b98a",
+              "name": "youtube url",
+              "value": "={{ $json.youtube_url }}",
+              "type": "string"
+            },
+            {
+              "id": "72830e53-4c22-45b9-b53c-bc073db13559",
+              "name": "json file url",
+              "value": "={{ $json.template_url }}",
+              "type": "string"
+            },
+            {
+              "id": "4915671f-d830-4625-9c1a-1b43dd18b022",
+              "name": "date",
+              "value": "={{ $json.date_posted }}",
+              "type": "string"
+            },
+            {
+              "id": "169ace3e-6961-4a4f-a09c-1a12a40aef24",
+              "name": "body.query",
+              "value": "={{ $('Webhook').item.json.body.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        272
+      ],
+      "id": "d2a59c44-90a3-472e-8ba4-7e103a13f72a",
+      "name": "Edit Fields",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return items;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        288,
+        272
+      ],
+      "id": "e52bf390-378d-4d64-9404-217629635ede",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "188079e0-ab99-4e24-8a0c-5bf3bf04db7e",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "e394e1f1-e3eb-48de-b7f8-3e70c3cec574",
+              "name": "=description",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "23f747bf-f0ef-4a5f-8ccc-fb8d66b0bf3e",
+              "name": "creator",
+              "value": "={{ $json.creator }}",
+              "type": "string"
+            },
+            {
+              "id": "430bc8af-f573-408c-87ea-968cb063b800",
+              "name": "youtube url",
+              "value": "={{ $json['youtube url'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7283d5cc-2e9b-44d5-a000-462265fbce23",
+              "name": "json file url",
+              "value": "={{ $json['json file url'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3f588095-b205-4996-86ac-e6610aa09bbc",
+              "name": "date",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "c098126b-76ff-4061-8514-bb2fdac6baf8",
+              "name": "query",
+              "value": "={{ $('Webhook').item.json.body.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        496,
+        272
+      ],
+      "id": "9be15c15-56dc-4595-a732-235f554148d2",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "jsCode": "function tokenize(text) {\n  return text.toLowerCase().split(/\\W+/).filter(Boolean);\n}\n\nfunction vectorize(tokens) {\n  const freq = {};\n  tokens.forEach(token => freq[token] = (freq[token] || 0) + 1);\n  return freq;\n}\n\nfunction cosineSim(vecA, vecB) {\n  const allTokens = new Set([...Object.keys(vecA), ...Object.keys(vecB)]);\n  let dotProduct = 0, normA = 0, normB = 0;\n\n  for (const token of allTokens) {\n    const a = vecA[token] || 0;\n    const b = vecB[token] || 0;\n    dotProduct += a * b;\n    normA += a * a;\n    normB += b * b;\n  }\n\n  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB) || 1);\n}\n\nconst items = $input.all();\nconst query = items[0].json.query || '';\nconst queryVec = vectorize(tokenize(query));\n\nconst scored = [];\n\nfor (let i = 1; i < items.length; i++) {\n  const data = items[i].json;\n\n  const title = data.title || '';\n  const description = data.description || '';\n  const creator = data.creator || '';\n  const youtubeUrl = data['youtube url'] || '';\n  const jsonUrl = data['json file url'] || '';\n  const date = data.date || '';\n\n  const combinedText = `${title} ${description} ${creator}`;\n  const entryVec = vectorize(tokenize(combinedText));\n  const score = cosineSim(queryVec, entryVec);\n\n  scored.push({\n    title,\n    description,\n    creator,\n    date,\n    youtubeUrl,\n    jsonUrl,\n    score\n  });\n}\n\nconst topMatches = scored\n  .sort((a, b) => b.score - a.score)\n  .slice(0, 5)\n  .map(entry => ({ json: entry }));\n\nreturn topMatches;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        272
+      ],
+      "id": "c7b92ce3-c133-4ff5-81ca-3611537d079d",
+      "name": "Code"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Templates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Templates": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Response": {
+      "main": [
+        [
+          {
+            "node": "Send Back Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Set Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ba928b19-9ac3-4e1e-af5e-796f1913f4b4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "82684d78da1c1ea5d3f0e2e5fddb740ae7f087da8772c8843fed63ecfccacd58"
+  },
+  "id": "kS65KeZy25ORDd4f",
+  "tags": []
+}
